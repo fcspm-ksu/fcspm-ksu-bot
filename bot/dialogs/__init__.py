@@ -4,3 +4,4 @@ from .cancel import *
 from .order_certificate import *
 from .phrases import *
 from .start import *
+from .echo_not_understanded import *

@@ -47,5 +47,7 @@ general_conversation = ConversationHandler(
         CommandHandler('order_certificate', order_certificate_start),
         CommandHandler('cancel', cancel),
         CommandHandler('start', start),
+
+        MessageHandler(Filters.all, echo_not_understanded)
     ]
 )

@@ -1,14 +1,13 @@
+import os
+
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
-from environs import Env
 from .utils import *
 from .phrases import *
 from .data import COURSES, SPECIALITIES
 
 logger = logging.getLogger(__name__)
 
-env = Env()
-env.read_env(env.str('ENV_PATH', 'bot/env/dev.env'))
-CERTIFICATE_NOTIFY_LIST = str(env.str('CERTIFICATE_NOTIFY_LIST', '')).split(',')
+CERTIFICATE_NOTIFY_LIST = os.environ.get('CERTIFICATE_NOTIFY_LIST', '').split(',')
 
 
 @log_msg

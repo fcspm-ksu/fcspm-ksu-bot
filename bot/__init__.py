@@ -1,12 +1,11 @@
 import logging
-from environs import Env
+import os
 import telegram.ext
 from .conversations import general_conversation
 
-env = Env()
-env.read_env(env.str('ENV_PATH', 'bot/env/dev.env'))
-token = env.str('TOKEN')
-logging_level = env.str('LOGGING_LEVEL', 20)
+token = os.environ.get('TOKEN')
+logging_level = os.environ.get('LOGGING_LEVEL')
+
 
 logging.basicConfig(
     level=logging_level,

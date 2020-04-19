@@ -24,7 +24,7 @@ def log_msg(func):
         c = update.effective_chat
         msg = update.message.text
         if c["type"] == "private":
-            msg = f'{c["username"]}({c["last_name"]} {c["first_name"]}): {update.message.text}'
+            msg = f'{c["username"]}({c["last_name"]} {c["first_name"]}) | State => {result}: {update.message.text}'
         elif c["type"] == "group":
             msg = f'{c["title"]}): {update.message.text}'
         logging.log(logging.INFO, msg)
@@ -47,4 +47,6 @@ class FilterContains(BaseFilter):
 
 
 def contains_from_list(str_: str, list_: List[str]):
+    list_ = list_ or []
+    str_ = str_ or ""
     return any([str_ in txt for txt in list_])

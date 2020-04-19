@@ -6,6 +6,10 @@ from .conversations import general_conversation
 token = os.environ.get('TOKEN')
 logging_level = os.environ.get('LOGGING_LEVEL')
 
+# Port is given by Heroku
+PORT = os.environ.get('PORT')
+NAME = 'fcspm-ksu-bot'
+
 
 logging.basicConfig(
     level=logging_level,
@@ -21,5 +25,9 @@ def main():
     dispatcher = updater.dispatcher
     dispatcher.add_handler(general_conversation)
 
-    updater.start_polling()
+    # Start the webhook
+    updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=token)
+    updater.bot.setWebhook("https://{}.herokuapp.com/{}".format(NAME, token))
     updater.idle()

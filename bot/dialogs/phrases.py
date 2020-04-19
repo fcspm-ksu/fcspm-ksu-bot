@@ -1,3 +1,11 @@
+"""
+Any phrases used by bot.
+
+Tips:
+Avoid prefix commands as keywords wor different sates: shortest prefix will intercept handling
+"""
+
+
 EDIT_EMOJI = '🖋 '
 MAP_EMOJI = '🗺 '
 DOC_EMOJI = '🗒 '
@@ -7,13 +15,17 @@ CROSS_EMOJI = '❌ '
 SIGN_EMOJI = '❗ '
 WEB_EMOJI = '🌐 '
 
+HOW_TO_ORDER_CERTIFICATE = 'Довідку можна замовити в деканаті, використавши форму на сайті або з допомогою бота'
+ORDER_CERTIFICATE_HASHTAG = '#ЗАМОВЛЕННЯ_ДОВІДКИ'
+
 THANKS = 'Дякую!'
 WHERE_IS_PREFIX = MAP_EMOJI + 'Де знаходиться'
 WHERE_IS_SOMETHING = WHERE_IS_PREFIX + '...?'
+WHERE_IS_FCSPM_DEANS_OFFICE = WHERE_IS_PREFIX + ' деканат на факультеті комп`ютерних наук, фізики та математики'
 
 ORDER_CERTIFICATE_PREFIX = DOC_EMOJI + 'Замовити довідку'
 ORDER_CERTIFICATE_WITH_BOT = ORDER_CERTIFICATE_PREFIX + ' через бота'
-ORDER_CERTIFICATE_WITH_DATA = ORDER_CERTIFICATE_WITH_BOT + ' з введеними даними'
+ORDER_CERTIFICATE_WITH_DATA = DOC_EMOJI + 'Підтвердити замовлення через бота з введеними даними'
 
 BELLS_SCHEDULE = BELL_EMOJI + 'Розклад дзвінків'
 

@@ -4,6 +4,9 @@ from telegram.ext import BaseFilter
 from typing import *
 
 
+MINIMAL_KEYWORD_LENGTH = 7
+
+
 class State:
     CANCEL = 0
     GENERAL_CHOOSING = 1
@@ -47,6 +50,6 @@ class FilterContains(BaseFilter):
 
 
 def contains_from_list(str_: str, list_: List[str]):
-    list_ = list_ or []
-    str_ = str_ or ""
-    return any([str_ in txt for txt in list_])
+    if str_ and list_ and len(str_) > MINIMAL_KEYWORD_LENGTH:
+        return any([txt in str_ for txt in list_])
+    return False

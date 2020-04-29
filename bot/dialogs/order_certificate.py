@@ -9,17 +9,22 @@ logger = logging.getLogger(__name__)
 
 CERTIFICATE_NOTIFY_LIST = os.environ.get('CERTIFICATE_NOTIFY_LIST', '').split(',')
 
+FULL_NAME = 'full_name'
+COURSE = 'course'
+SPECIALITY = 'speciality'
+COMMENT = 'comment'
+
 
 @log_msg
 def order_certificate_start(update, context):
     reply_keyboard = [
-        [WHERE_IS_PREFIX + ' деканат на факультеті комп`ютерних наук, фізики та математики'],
+        [WHERE_IS_FCSPM_DEANS_OFFICE],
         [WEB_EMOJI + KSPU_ORDER_CERTIFICATE_PAGE],
         [ORDER_CERTIFICATE_WITH_BOT]
     ]
     reply_markup = ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, resize_keyboard=True)
     update.message.reply_text(
-        'Довідку можна замовити особисто в деканаті, використавши форму на сайті або з допомогою бота',
+        HOW_TO_ORDER_CERTIFICATE,
         reply_markup=reply_markup
     )
     return State.ORDER_CERTIFICATE_AWAIT_CHOICE
@@ -48,7 +53,7 @@ def order_certificate_prompt_loop(update, context):
 @log_msg
 def order_certificate_input_name(update, context):
     text = update.message.text
-    context.user_data['full_name'] = text
+    context.user_data[FULL_NAME] = text
     order_certificate_choicer(update, context)
     return State.ORDER_CERTIFICATE_CHOICER
 
@@ -56,7 +61,7 @@ def order_certificate_input_name(update, context):
 @log_msg
 def order_certificate_input_course(update, context):
     text = update.message.text
-    context.user_data['course'] = text
+    context.user_data[COURSE] = text
     order_certificate_choicer(update, context)
     return State.ORDER_CERTIFICATE_CHOICER
 
@@ -64,7 +69,7 @@ def order_certificate_input_course(update, context):
 @log_msg
 def order_certificate_input_speciality(update, context):
     text = update.message.text
-    context.user_data['speciality'] = text
+    context.user_data[SPECIALITY] = text
     order_certificate_choicer(update, context)
     return State.ORDER_CERTIFICATE_CHOICER
 
@@ -72,19 +77,19 @@ def order_certificate_input_speciality(update, context):
 @log_msg
 def order_certificate_input_comment(update, context):
     text = update.message.text
-    context.user_data['comment'] = text
+    context.user_data[COMMENT] = text
     order_certificate_choicer(update, context)
     return State.ORDER_CERTIFICATE_CHOICER
 
 
 @log_msg
 def order_certificate_checkout(update, context):
-    msg = '#ЗАМОВЛЕННЯ_ДОВІДКИ'
+    msg = ORDER_CERTIFICATE_HASHTAG
     msg += f'\n{update.effective_user.name}'
-    msg += f'\n{context.user_data.get("full_name")}'
-    msg += f'\n{context.user_data.get("speciality")}'
-    msg += f'\n{context.user_data.get("course")}'
-    msg += f'\n{context.user_data.get("comment")}' if context.user_data.get("comment") else ''
+    msg += f'\n{context.user_data.get(FULL_NAME)}'
+    msg += f'\n{context.user_data.get(SPECIALITY)}'
+    msg += f'\n{context.user_data.get(COURSE)}'
+    msg += f'\n{context.user_data.get(COMMENT)}' if context.user_data.get(COMMENT) else ''
     update.message.reply_text(
         msg,
         reply_markup=ReplyKeyboardRemove()
@@ -108,15 +113,15 @@ def formatter(condition: str, message: str, placeholder: str):
 
 
 def is_full(user_data):
-    return user_data.get('full_name') and user_data.get('speciality') and user_data.get('course')
+    return user_data.get(FULL_NAME) and user_data.get(SPECIALITY) and user_data.get(COURSE)
 
 
 def order_certificate_choicer(update, context):
     reply_keyboard = [
-        [formatter(context.user_data.get('full_name'), PUT_NAME, POST_NAME)],
-        [formatter(context.user_data.get("speciality"), PUT_SPECIALITY, POST_SPECIALITY)],
-        [formatter(context.user_data.get("course"), PUT_COURSE, POST_COURSE)],
-        [formatter(context.user_data.get("comment"), PUT_COMMENT, POST_COMMENT)],
+        [formatter(context.user_data.get(FULL_NAME), PUT_NAME, POST_NAME)],
+        [formatter(context.user_data.get(SPECIALITY), PUT_SPECIALITY, POST_SPECIALITY)],
+        [formatter(context.user_data.get(COURSE), PUT_COURSE, POST_COURSE)],
+        [formatter(context.user_data.get(COMMENT), PUT_COMMENT, POST_COMMENT)],
     ]
 
     message = FULFILL
